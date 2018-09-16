@@ -24,39 +24,44 @@
 
   <div class="container">
 
+    <!-- row 1 -->
     <div class="row">
       <h4 id="newsSource"><i class="fas fa-newspaper"></i> CNN New Feed</h4>
     </div>
 
-    <!-- row 1 -->
+    <!-- row 2 -->
     <div class="row searchContainer">
 
-      <div class="d-inline p-2">
-        <button type="submit" class="btn btn-primary d-inline-block" onclick="getNewsOnClick()">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-      <div class="d-inline p-2">
-        <form>
-          <select name="news" class="form-control newsFeddSelector" id="newsTopic" onchange="getNewsOnClick()">
-            <option selected>Crypto Coin news</option>
-            <option>CNN</option>
-            <option>Bloomberg</option>
-            <option>BBC News</option>
-            <option>Google News</option>
-          </select>
-        </form>
-      </div>
+      <form class="newsFeedSelector">
+        <div class="p-2">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <button type="submit" class="btn btn-primary d-inline-block" onclick="getNewsOnClick()">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
+              <select name="news" class="form-control" id="newsTopic" onchange="getNewsOnClick()">
+                <option selected>Crypto Coin news</option>
+                <option>CNN</option>
+                <option>Bloomberg</option>
+                <option>BBC News</option>
+                <option>Google News</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
 
     </div>
 
-    <!-- row 2 -->
+    <!-- row 3 -->
     <div class="row resultsContainer">
       <div class="resultHeader">
         <h4 id="articleSource" class="text-primary">articles</h4>
       </div>
       <div id="articlesSection" class="container artcileSection">
- 
+
         <!-- Article goes here -->
 
       </div>
