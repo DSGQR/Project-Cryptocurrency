@@ -104,29 +104,26 @@ function clearArticlesInScreen() {
   }
 }
 
-function getNewsTopic(elementId) {
-
+function getInputSelecton(elementId) {
+  // get element that represent an input selector
   var elmnt = document.getElementById(elementId);
-
+  // if not selector return null
   if (elmnt.selectedIndex == -1) {
     return null;
   }
-
+  // return selected value
   return elmnt.options[elmnt.selectedIndex].text;
 }
 
 // EVENT: Search news .....................
 function getNewsOnClick() {
-
+  event.preventDefault();
   // search topic
-  let searchNewsTopic = getNewsTopic('newsTopic');
-
+  let searchNewsTopic = getInputSelecton('newsTopic');
   // clear all articles from screen
   clearArticlesInScreen();
-
   // // Look for artciels and display
   displayArticles(searchNewsTopic);
-
 }
 
 // Load intialy crypto news
