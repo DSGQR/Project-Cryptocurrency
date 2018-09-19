@@ -17,54 +17,19 @@ let userAcctRef = db.ref('cryptoAccounts'); // do not use keyword 'userAccount'
 let userPortfRef = db.ref('cryptoPortfolio');
 
 // Functions .......................................................
-function addUserAccount(userId, userName, userPwd) {
+function addUserAccount(userId, userName) {
 
-    // Make sure there are not leading/tailing spaces
-    userId = userId.trim();
-    userName = userName.trim();
-    userPwd = userPwd.trim();
-    let errorFound = false;
-    if (userId === '') {
-        document.getElementById("userIdErr").innerHTML = 'User Id cannot be blank';
-        errorFound = true;
-    }
-    if (userName === '') {
-        document.getElementById("userNameErr").innerHTML = 'User Name cannot be blank';
-        errorFound = true;
-    }
-    if (userPwd === '') {
-        document.getElementById("userPwdErr").innerHTML = 'User password cannot be blank';
-        errorFound = true;
-    }
-
-    // does account already exist?
-    let isUserAcountExist = doesAccountExist(userId);
-    if (isUserAcountExist) {
-        document.getElementById("userIdErr").innerHTML = 'Use account already exist';
-        errorFound = true;
-    }
-
-    // Only add if does nto exists
-    if (!errorFound && !isUserAcountExist) {
-        // prepare user accoun object
+        // prepare user account object
         let userAccount = {
             userId: userId,
-            userName: userName,
-            userPwd: userPwd
+            userName: userName
         }
         // Add user account
         userAcctRef.push(userAccount);
-        document.getElementById("uId").value = '';
-        document.getElementById("uName").value = '';
-        document.getElementById("uPwd").value = '';
-    }
-
-    return (errorFound ? false : true);
 }
 
-
 function doesAccountExist(userId) {
-
+    console.log('in doesaccountexist function')
     let isRecordAvailable = false;
     // Look for the trains that match the name
     userAcctRef.orderByChild('userId').equalTo(userId).on('value', data => {
@@ -73,7 +38,7 @@ function doesAccountExist(userId) {
             isRecordAvailable = true;
         });
     })
-
+    console.log(isRecordAvailable)
     return isRecordAvailable;
 }
 
@@ -222,7 +187,6 @@ function addCoinToList(userId, coinName, coinSymbol, coinHold) {
 }
 
 function deleteCoin(userId, coinSymbol) {
-
     userId = userId.trim();
     coinSymbol = coinSymbol.trim();
     let errorFound = false;
@@ -313,7 +277,7 @@ function refreshUserPortflio() {
             var recKey = elementNode.key;
             var userPortf = elementNode.val();
             if (userPortf != null) {
-                displayUserPortfolio(recKey, userPortf)
+                // displayUserPortfolio(recKey, userPortf) //figure this out
             }
         });
     })
