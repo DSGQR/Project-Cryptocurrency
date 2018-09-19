@@ -16,11 +16,12 @@ const db = firebase.database();
 let userAcctRef = db.ref('cryptoAccounts'); // do not use keyword 'userAccount'
 let userPortfRef = db.ref('cryptoPortfolio');
 
-function addCoinToList(userId, coinName, coinHold, isFav) {
+function addCoinToList(userId,coinName,coinSymbol,coinHold) {
 
     userId = userId.trim();
     coinName = coinName.trim();
     coinHold = coinHold.trim();
+    coinSymbol = coinSymbol.trim();
 
     let errorFound = false;
 
@@ -62,6 +63,7 @@ function addCoinToList(userId, coinName, coinHold, isFav) {
         // prepare coin
         let coin = {
             coinName: coinName,
+            coinSymbol: coinSymbol,
             hold: coinHold
         }
 
@@ -86,10 +88,10 @@ function addCoinToList(userId, coinName, coinHold, isFav) {
     }
 }
 
-function deleteCoin(userId, coinName) {
+function deleteCoin(userId, coinSymbol) {
 
     userId = userId.trim();
-    coinName = coinName.trim();
+    coinSymbol = coinSymbol.trim();
 
     let errorFound = false;
 
@@ -113,10 +115,10 @@ function deleteCoin(userId, coinName) {
             recKey = usrProtfolio.key;
             curWatchList = usrProtfolio.val().watchList;
 
-            // Get current coint position in protafolio 
+            // Get current coint position in p0rtafolio 
             for (let i = 0; i < curWatchList.length; i++) {
                 let element = curWatchList[i];
-                if (element.coinName === coinName) {
+                if (element.coinSymbol === coinSymbol) {
                     pos = i;
                     break
                 }
@@ -238,16 +240,17 @@ function SubmitCoin() {
     // retreive data from screen
     let userId = document.getElementById("uId").value.trim();
     let coinName = document.getElementById("cName").value.trim();
+    let coinSymbol = document.getElementById("cSymbol").value.trim();
     let coinHold = document.getElementById("cHold").value.trim();
     let isFav = document.getElementById("cFav").checked;
 
     console.log("to Add/Update");
     console.log(userId);
     console.log(coinName);
+    console.log(coinSymbol);
     console.log(coinHold);
-    console.log(isFav);
 
-    addCoinToList(userId, coinName, coinHold, isFav);
+    addCoinToList(userId,coinName,coinSymbol,coinHold);
     
     document.getElementById('usrPprotfolio').innerHTML = '';
     refreshUserPortflio();
