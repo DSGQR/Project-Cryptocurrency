@@ -21,6 +21,7 @@ function addCoinToList(userId,coinName,coinSymbol,coinHold) {
     userId = userId.trim();
     coinName = coinName.trim();
     coinHold = coinHold.trim();
+    coinSymbol = coinSymbol.trim();
 
     let errorFound = false;
 
@@ -87,10 +88,10 @@ function addCoinToList(userId,coinName,coinSymbol,coinHold) {
     }
 }
 
-function deleteCoin(userId, coinName) {
+function deleteCoin(userId, coinSymbol) {
 
     userId = userId.trim();
-    coinName = coinName.trim();
+    coinSymbol = coinSymbol.trim();
 
     let errorFound = false;
 
@@ -114,10 +115,10 @@ function deleteCoin(userId, coinName) {
             recKey = usrProtfolio.key;
             curWatchList = usrProtfolio.val().watchList;
 
-            // Get current coint position in protafolio 
+            // Get current coint position in p0rtafolio 
             for (let i = 0; i < curWatchList.length; i++) {
                 let element = curWatchList[i];
-                if (element.coinName === coinName) {
+                if (element.coinSymbol === coinSymbol) {
                     pos = i;
                     break
                 }
