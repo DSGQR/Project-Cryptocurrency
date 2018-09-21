@@ -7,7 +7,7 @@ var config = {
     projectId: "cryptocurrecny-f7eb7",
     storageBucket: "cryptocurrecny-f7eb7.appspot.com",
     messagingSenderId: "917854135892"
-  };
+};
 // Initialize Firebase
 firebase.initializeApp(config);
 // create a variable named database to store your db connection
@@ -277,10 +277,26 @@ function refreshUserPortflio() {
             var recKey = elementNode.key;
             var userPortf = elementNode.val();
             if (userPortf != null) {
-                // displayUserPortfolio(recKey, userPortf) //figure this out
+                displayUserPortfolio(recKey, userPortf) //figure this out
             }
         });
     })
+}
+
+function displayUserPortfolio(recKey, usrPortf) {
+
+    for (let i = 0; i < usrPortf.watchList.length; i++) {
+
+        coin = usrPortf.watchList[i];
+
+    //     let item = document.createElement('div');
+    //     item.innerHTML = `
+    //     <p>${usrPortf.userId} "/" ${coin.coinName} "/" ${coin.hold}</p>
+    //   `
+    //     document.getElementById('usrPprotfolio').appendChild(item);
+    }
+
+
 }
 
 function SubmitCoin() {
