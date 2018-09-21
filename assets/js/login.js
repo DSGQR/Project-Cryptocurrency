@@ -3,9 +3,12 @@ function userCheck() {
     if (localStorage.getItem('cw-username')) {
         document.querySelector('#js-user-page').className = 'card'
         document.querySelector('#js-user-page').innerHTML = `
-            <h4>${localStorage.getItem('cw-username')} is logged in
-            <button class="btn btn-danger" onclick="logout()">Logout</button>
-            </h4>
+            <div class='card-header'>
+                <h4>${localStorage.getItem('cw-username')} is logged in
+                <button class="btn btn-danger" onclick="logout()">Logout</button>
+                </h4>
+            </div>
+            <div class='card-body'>
                 <h4>Total: $123</h4>
                 <h4>Portfolio:</h4>
                 <table class='table'>
@@ -16,6 +19,7 @@ function userCheck() {
                         <td>Example</td> <td>123456</td> <td>$123</td> <td>1.5%</td>
                     </tr>
                 </table>
+            </div>
         `
         //call function to display portfolio etc
         //
@@ -36,7 +40,7 @@ function loginForm() {
         <div class='card-body'>
             <form>
                 <div class="form-group">
-                    <label for="uId">Username<span id="userIdErr" class="text-danger"></span></label>
+                    <label for="uId">Username <span id="userIdErr" class="text-danger"></span></label>
                     <input class="form-control" id="uId" placeholder="User ID..." type="text">
                 </div>
                 <button class="btn btn-primary" onclick="loginAccount()">Submit</button>
@@ -82,11 +86,12 @@ function createAccountForm() {
 //Button Submit Login
 function loginAccount() {
     event.preventDefault()
-    //if account exists 
-    //display porfolio etc
-    localStorage.setItem('cw-username', document.getElementById('uId').value)
-    //else error (please create account)
-    userCheck()
+    userIdInput = document.getElementById('uId').value.trim()
+    if(!loginAccountError(userIdInput)) {
+        //display porfolio
+        localStorage.setItem('cw-username', userIdInput)
+        userCheck()
+    }
 }
 
 //Button Submit new account
@@ -95,7 +100,7 @@ function createAccount() {
     userNameInput = document.getElementById('uName').value.trim()
     userIdInput = document.getElementById('uId').value.trim()
     //push user account to firebase
-    if (!AccountInputError(userNameInput, userIdInput)) {
+    if (!createAccountInputError(userNameInput, userIdInput)) {
         addUserAccount(userIdInput, userNameInput)
         //set username on local storage
         localStorage.setItem('cw-username', userIdInput)
@@ -103,7 +108,22 @@ function createAccount() {
     }
 }
 
-function AccountInputError(userNameInput, userIdInput) {
+function loginAccountError(userIdInput) {
+    let isErrorFound = false
+    //if input is blank, error
+    if (userIdInput === '') {
+        isErrorFound = true
+        document.getElementById('userIdErr').innerHTML = "User ID cannot be blank"
+    }
+    //if account isn't in database, error
+    if (!doesAccountExist(userIdInput)) {
+        document.getElementById('userIdErr').innerHTML = 'User not found. Please create Account'
+        isErrorFound = true
+    }
+    return isErrorFound
+}
+
+function createAccountInputError(userNameInput, userIdInput) {
     let isErrorFound = false;
     if (userNameInput === '') {
         isErrorFound = true
@@ -131,6 +151,8 @@ function logout() {
 //run initial check on page load
 userCheck()
 
+
+//SAMPLE
 function displayAccountInfo() {
     document.getElementById('js-user-page').innerHTML = `
                     <div class="userHeader">
