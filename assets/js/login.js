@@ -1,31 +1,9 @@
 //check if logged in
 function userCheck() {
-    if (localStorage.getItem('cw-username')) {
-        document.querySelector('#js-user-page').className = 'card'
-        document.querySelector('#js-user-page').innerHTML = `
-            <div class='card-header'>
-                <h4>${localStorage.getItem('cw-username')} is logged in
-                <button class="btn btn-danger" onclick="logout()">Logout</button>
-                </h4>
-            </div>
-            <div class='card-body'>
-                <h4>Total: $123</h4>
-                <h4>Portfolio:</h4>
-                <table class='table'>
-                    <tr>
-                        <th>coin</th> <th>holdings</th> <th>USD</th> <th>Change</th>
-                    </tr>
-                    <tr>
-                        <td>Example</td> <td>123456</td> <td>$123</td> <td>1.5%</td>
-                    </tr>
-                </table>
-            </div>
-        `
-        //call function to display portfolio etc
-        //
-    } else {
+    //if there is no user in local storage, call login
+    if (!localStorage.getItem('cw-username')) {
         loginForm()
-    }
+    } 
 }
 
 //Display login form
