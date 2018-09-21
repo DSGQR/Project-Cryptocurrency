@@ -113,10 +113,11 @@ let userPortfRef = db.ref('cryptoPortfolio');
 
 function addCoinToList(userId, coinName, coinSymbol, coinHold) {
 
-    userId = userId.trim();
-    coinName = coinName.trim();
-    coinSymbol = coinSymbol.trim()
-    coinHold = coinHold.trim() === '' ? '' : parseFloat(coinHold.trim());
+    // userId = userId.trim();
+    // coinName = coinName.trim();
+    // coinSymbol = coinSymbol.trim()
+
+    // coinHold = coinHold.trim() === '' ? '' : parseFloat(coinHold.trim());
 
     let errorFound = false;
 
@@ -325,7 +326,7 @@ function displayCoinInPortfolio(coinObj) {
     let tblCellUpdBtn = tblRow.appendChild(document.createElement('td'));
     tblCellUpdBtn.innerHTML = `
         <button class="btn btn-primary rowBtn" data-toggle="tooltip" title="Edit" 
-             onclick="updateCoinOnClick('${coinObj.symbol}','${coinObj.priceUSD}','${coinObj.holdings}')">
+             onclick="updateCoinOnClick('${coinObj.name}','${coinObj.symbol}','${coinObj.priceUSD}','${coinObj.holdings}')">
            <i class="fas fa-edit"></i>
         </button>
      `
@@ -356,11 +357,11 @@ function displayCoinInPortfolio(coinObj) {
     document.getElementById('portfolio-data').appendChild(tblRow);
 }
 
-function convertDollarFomratToFloat(dollarFigure) {    
+function convertDollarFomratToFloat(dollarFigure) {
     // remode '$' and ',' symbols
-    let dollarNumber = dollarFigure.replace('$','');
-    dollarNumber = dollarNumber.replace(',','');
-    return(parseFloat(dollarNumber))
+    let dollarNumber = dollarFigure.replace('$', '');
+    dollarNumber = dollarNumber.replace(',', '');
+    return (parseFloat(dollarNumber))
 }
 
 // userPortfRef.on('child_added', data => {
@@ -413,7 +414,7 @@ function deleteCoinOnClick(coinSymbol) {
     deleteCoin(userId, coinSymbol);
 }
 
-function updateCoinOnClick(coinSymbol, coinPriceUSD, coinHoldings) {
+function updateCoinOnClick(coinName, coinSymbol, coinPriceUSD, coinHoldings) {
     // Control default behavior for "submit" button
     event.preventDefault();
 
@@ -423,18 +424,21 @@ function updateCoinOnClick(coinSymbol, coinPriceUSD, coinHoldings) {
     if (localStorage.getItem('cw-username-test')) {
 
         if (document.getElementById('holdingForm').getAttribute('class') === "holdingsForm d-none") {
+
+            // Set data-value for input with coin name and  symbol
+            document.getElementById('holdingDecimals').setAttribute('data-value', coinName + "," + coinSymbol);
             // Add holding coing name 
             document.getElementById('holdingsSymbol').innerHTML = coinSymbol;
             // Add holding coing name 
             document.getElementById('coinPrice').innerHTML = coinPriceUSD;
             // Show holding decimal
             document.getElementById('holdingDecimals').value = coinHoldings;
-            
-             // Preapre holding dollars
+
+            // Preapre holding dollars
             let dollarHoldings = 0;
             if (coinHoldings !== '') {
                 priceUSD = convertDollarFomratToFloat(coinPriceUSD);
-                dollarHoldings = coinHoldings * parseFloat(priceUSD);    
+                dollarHoldings = coinHoldings * parseFloat(priceUSD);
             }
             // Holdings in dollars
             document.getElementById('holdingDollars').innerHTML = accounting.formatMoney(dollarHoldings);
@@ -442,6 +446,9 @@ function updateCoinOnClick(coinSymbol, coinPriceUSD, coinHoldings) {
             // Make Holding form visible
             document.getElementById('holdingForm').setAttribute('class', 'holdingsForm');
         } else {
+            // resetset coin in data-value attribute
+            document.getElementById('holdingDecimals').setAttribute('data-value', '');
+            // Add holding coing name 
             // Add holding coing name 
             document.getElementById('holdingsSymbol').innerHTML = '';
             // Add holding coing name 
@@ -452,11 +459,7 @@ function updateCoinOnClick(coinSymbol, coinPriceUSD, coinHoldings) {
             // Make Holding form visible
             document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
         }
-
-
-
     }
-
 }
 
 function saveHoldingsOnClick() {
@@ -466,21 +469,34 @@ function saveHoldingsOnClick() {
     // retreive data from screen
     let userId = localStorage.getItem('cw-username-test');
 
-    console.log("Save holdings");
+    if (localStorage.getItem('cw-username-test')) {
+        
+        // retrevie coin name and symbol
+        let coinNameSymbol = document.getElementById('holdingDecimals').getAttribute('data-value')
+        // get value from input
+        let coinHoldings = document.getElementById('holdingDecimals').value;
+        
+        // separate coin nanme and symbol
+        let coinArr = coinNameSymbol.split(',');
+        let coinName = coinArr[0];
+        let coinSymbol = coinArr[1];
 
-    console.log(userId);
-    console.log(coinName);
-    console.log(coinSymbol);
-    console.log(coinHold);
+        // Parese hildings
+        if (coinHoldings !== '') {
+            coinHoldings = parseFloat(coinHoldings);
+        }
 
-    // if (localStorage.getItem('cw-username-test')) {
-    //     // add new coin
-    //     addCoinToList(coinName, coinSymbol, coinHold);
-    // }
+        console.log(userId);
+        console.log(coinName);
+        console.log(coinSymbol);
+        console.log(coinHoldings);
 
-    // document.getElementById('usrPportfolio').innerHTML = '';
-    // refreshUserPortflio();
-
+        // add new coin
+        if(coinName !== '' && coinSymbol !== '' && coinHoldings !== '') {
+            // store the coin in DB with holdings
+            addCoinToList(userId,coinName, coinSymbol, coinHoldings);
+        }   
+    }
 }
 
 refreshUserAccounts();
