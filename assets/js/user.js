@@ -19,13 +19,13 @@ let userPortfRef = db.ref('cryptoPortfolio');
 // Functions .......................................................
 function addUserAccount(userId, userName) {
 
-        // prepare user account object
-        let userAccount = {
-            userId: userId,
-            userName: userName
-        }
-        // Add user account
-        userAcctRef.push(userAccount);
+    // prepare user account object
+    let userAccount = {
+        userId: userId,
+        userName: userName
+    }
+    // Add user account
+    userAcctRef.push(userAccount);
 }
 
 function doesAccountExist(userId) {
@@ -277,10 +277,26 @@ function refreshUserPortflio() {
             var recKey = elementNode.key;
             var userPortf = elementNode.val();
             if (userPortf != null) {
-                // displayUserPortfolio(recKey, userPortf) //figure this out
+                displayUserPortfolio(recKey, userPortf) //figure this out
             }
         });
     })
+}
+
+function displayUserPortfolio(recKey, usrPortf) {
+
+    for (let i = 0; i < usrPortf.watchList.length; i++) {
+
+        coin = usrPortf.watchList[i];
+
+    //     let item = document.createElement('div');
+    //     item.innerHTML = `
+    //     <p>${usrPortf.userId} "/" ${coin.coinName} "/" ${coin.hold}</p>
+    //   `
+    //     document.getElementById('usrPprotfolio').appendChild(item);
+    }
+
+
 }
 
 function SubmitCoin() {
