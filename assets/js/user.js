@@ -487,6 +487,9 @@ function saveHoldingsOnClick() {
         // Parese hildings
         if (coinHoldings !== '') {
             coinHoldings = parseFloat(coinHoldings);
+            if (coinHoldings === 0) {
+                coinHoldings = '';
+            }
         }
 
         console.log(userId);
@@ -495,10 +498,24 @@ function saveHoldingsOnClick() {
         console.log(coinHoldings);
 
         // add new coin
-        if(coinName !== '' && coinSymbol !== '' && coinHoldings !== '') {
+        if(coinName !== '' && coinSymbol !== '') {
             // store the coin in DB with holdings
             addCoinToList(userId,coinName, coinSymbol, coinHoldings);
-        }   
+        }  
+        
+        // Close input screen 
+         // resetset coin in data-value attribute
+         document.getElementById('holdingDecimals').setAttribute('data-value', '');
+         // Add holding coing name 
+         // Add holding coing name 
+         document.getElementById('holdingsSymbol').innerHTML = '';
+         // Add holding coing name 
+         document.getElementById('coinPrice').innerHTML = '';
+         document.getElementById('holdingDecimals').value = '';
+         // Show holding decimals
+         document.getElementById('holdingDollars').innerHTML = '';
+         // Make Holding form visible
+         document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
     }
 }
 
