@@ -68,8 +68,11 @@ label {
 }
 
 .card {
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
+  border-radius: 25px;
+}
+
+.card-header > h4 {
+  margin-bottom: 0;
 }
 
 .card,
@@ -162,6 +165,14 @@ form i {
   color: black;
   background-color: lightgray;
 }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 10;
+  }
 
 a.carousel-control-next, a.carousel-control-prev {
   width: 50px;
