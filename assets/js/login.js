@@ -1,133 +1,138 @@
 //check if logged in
 function userCheck() {
-  if (localStorage.getItem('cw-username-test')) {
-    document.querySelector('#js-user-page').innerHTML = `
-                    <h4>${localStorage.getItem('cw-username-test')} is logged in</h1>
-                        <button class="btn btn-danger" onclick="logout()">Logout</button>
-                        <h2>Total: $123</h2>
-                            <h3>Portfolio:</h3>
-                            <table class='table'>
-                                <tr>
-                                    <th>coin</th> <th>holdings</th> <th>USD</th> <th>Change</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Example</td> <td>123456</td> <td>$123</td> <td>1.5%</td>
-                                        </tr>
-                                        </table>
-                                        `
-    //call function to display portfolio etc
-    //
-  } else {
-    loginForm()
-  }
+    if (localStorage.getItem('cw-username')) {
+        document.querySelector('#js-user-page').className = 'card'
+        document.querySelector('#js-user-page').innerHTML = `
+            <h4>${localStorage.getItem('cw-username')} is logged in
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+            </h4>
+                <h4>Total: $123</h4>
+                <h4>Portfolio:</h4>
+                <table class='table'>
+                    <tr>
+                        <th>coin</th> <th>holdings</th> <th>USD</th> <th>Change</th>
+                    </tr>
+                    <tr>
+                        <td>Example</td> <td>123456</td> <td>$123</td> <td>1.5%</td>
+                    </tr>
+                </table>
+        `
+        //call function to display portfolio etc
+        //
+    } else {
+        loginForm()
+    }
 }
 
 //Display login form
 function loginForm() {
-  //create div with login form
-  var loginContainer = document.createElement('div')
-  loginContainer.className = 'row'
-  loginContainer.innerHTML = `
-                        <div class="col-12">
-                            <h2>Login</h2>
-                            <form>
-                                <div class="form-group">
-                                    <label for="uId">Username<span id="userIdErr" class="text-danger"></span></label>
-                                    <input class="form-control" id="uId" placeholder="User ID..." type="text">
-                                </div>
-                                <button class="btn btn-primary" onclick="loginAccount()">Submit</button>
-                                <button class="btn btn-primary" onclick="createAccountForm()">Create Account</button>
-                            </form>
-                        </div>
-                `
-  //clear page
-  document.querySelector('#js-user-page').innerHTML = ''
-  //append login form
-  document.querySelector('#js-user-page').appendChild(loginContainer)
+    //create div with login form
+    var loginContainer = document.createElement('div')
+    loginContainer.className = 'card rounded-0'
+    loginContainer.innerHTML = `
+        <div class="card-header">
+            <h4>Login</h4>
+        </div>
+        <div class='card-body'>
+            <form>
+                <div class="form-group">
+                    <label for="uId">Username<span id="userIdErr" class="text-danger"></span></label>
+                    <input class="form-control" id="uId" placeholder="User ID..." type="text">
+                </div>
+                <button class="btn btn-primary" onclick="loginAccount()">Submit</button>
+                <button class="btn btn-primary" onclick="createAccountForm()">Create Account</button>
+            </form>
+        </div>
+    `
+    //clear page
+    document.querySelector('#js-user-page').innerHTML = ''
+    //append login form
+    document.querySelector('#js-user-page').appendChild(loginContainer)
 }
 
 //Display Create-Account Form
 function createAccountForm() {
-  //create div with create account form
-  var createContainer = document.createElement('div')
-  createContainer.className = 'row'
-  createContainer.innerHTML = `
-                        <div class="col-12">
-                            <h2>Create New Account</h2>
-                            <form>
-                                <div class="form-group">
-                                    <label for="uName">Name <span id="userNameErr" class="text-danger"></span></label>
-                                    <input class="form-control" id="uName" placeholder="User name..." type="text">
-                                </div>
-                                <div class="form-group">
-                                    <label for="uId">Username <span id="userIdErr" class="text-danger"></span></label>
-                                    <input class="form-control" id="uId" placeholder="User ID..." type="text">
-                                </div>
-                                <button class="btn btn-primary" onclick="createAccount()">Submit</button>
-                            </form>
-                        </div>
-                `
-  //clear page
-  document.querySelector('#js-user-page').innerHTML = ''
-  //append create account form
-  document.querySelector('#js-user-page').appendChild(createContainer)
+    //create div with create account form
+    var createContainer = document.createElement('div')
+    createContainer.className = 'card rounded-0'
+    createContainer.innerHTML = `
+        <div class="card-header">
+            <h4>Create New Account</h4>
+        </div>
+        <div class='card-body'>
+            <form>
+                <div class="form-group">
+                    <label for="uName">Name <span id="userNameErr" class="text-danger"></span></label>
+                    <input class="form-control" id="uName" placeholder="User name..." type="text">
+                </div>
+                <div class="form-group">
+                    <label for="uId">Username <span id="userIdErr" class="text-danger"></span></label>
+                    <input class="form-control" id="uId" placeholder="User ID..." type="text">
+                </div>
+                <button class="btn btn-primary" onclick="createAccount()">Submit</button>
+            </form>
+        </div>
+    `
+    //clear page
+    document.querySelector('#js-user-page').innerHTML = ''
+    //append create account form
+    document.querySelector('#js-user-page').appendChild(createContainer)
 }
 
 //Button Submit Login
 function loginAccount() {
-  event.preventDefault()
-  //if account exists 
-  //display porfolio etc
-  localStorage.setItem('cw-username-test', document.getElementById('uId').value)
-  //else error (please create account)
-  userCheck()
+    event.preventDefault()
+    //if account exists 
+    //display porfolio etc
+    localStorage.setItem('cw-username', document.getElementById('uId').value)
+    //else error (please create account)
+    userCheck()
 }
 
 //Button Submit new account
 function createAccount() {
-  console.log('made it into creataccount function')
-  event.preventDefault()
-  userNameInput = document.getElementById('uName').value.trim()
-  userIdInput = document.getElementById('uId').value.trim()
-  //push user account to firebase
-  if (!AccountInputError(userNameInput, userIdInput)) {
-    addUserAccount(userIdInput, userNameInput)
-    //set username on local storage
-    localStorage.setItem('cw-username-test', userIdInput)
-    userCheck()
-  }
+    event.preventDefault()
+    userNameInput = document.getElementById('uName').value.trim()
+    userIdInput = document.getElementById('uId').value.trim()
+    //push user account to firebase
+    if (!AccountInputError(userNameInput, userIdInput)) {
+        addUserAccount(userIdInput, userNameInput)
+        //set username on local storage
+        localStorage.setItem('cw-username', userIdInput)
+        userCheck()
+    }
 }
 
 function AccountInputError(userNameInput, userIdInput) {
-  let isErrorFound = false;
-  if (userNameInput === '') {
-    isErrorFound = true
-    document.getElementById('userNameErr').innerHTML = "User Name cannot be blank"
-  }
-  if (userIdInput === '') {
-    isErrorFound = true
-    document.getElementById('userIdErr').innerHTML = "User ID cannot be blank"
-  }
-  if (doesAccountExist(userIdInput)) {
-    console.log('user account must have existed')
-    isErrorFound = true
-    document.getElementById('userIdErr').innerHTML = 'User ID already in use.'
-  }
-  return isErrorFound
+    let isErrorFound = false;
+    if (userNameInput === '') {
+        isErrorFound = true
+        document.getElementById('userNameErr').innerHTML = "User Name cannot be blank"
+    }
+    if (userIdInput === '') {
+        isErrorFound = true
+        document.getElementById('userIdErr').innerHTML = "User ID cannot be blank"
+    }
+    if (doesAccountExist(userIdInput)) {
+        console.log('user account must have existed')
+        isErrorFound = true
+        document.getElementById('userIdErr').innerHTML = 'User ID already in use.'
+    }
+    return isErrorFound
 }
 
 
 //Button Logout
 function logout() {
-  localStorage.removeItem('cw-username-test')
-  userCheck()
+    localStorage.removeItem('cw-username')
+    userCheck()
 }
 
 //run initial check on page load
 userCheck()
 
 function displayAccountInfo() {
-  document.getElementById('js-user-page').innerHTML = `
+    document.getElementById('js-user-page').innerHTML = `
                     <div class="userHeader">
                     <h6 class="topText">Your Portfolio Balance:</h6>
                     <h1>$7,459.23</h1>
