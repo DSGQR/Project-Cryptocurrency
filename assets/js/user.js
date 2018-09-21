@@ -308,9 +308,12 @@ function displayCoinInPortfolio(coinObj) {
 
     // create a new table row
     let tblRow = document.createElement('tr');
-    let holdingDollars = '';
+    let dollarHoldings ='';
     if (coinObj.holdings !== '') {
-        holdingDollars = coinObj.holdings * coinObj.priceUSD;
+        priceUSD = convertDollarFomratToFloat(coinObj.priceUSD);
+        dollarHoldings = coinObj.holdings * parseFloat(priceUSD);
+        dollarHoldings = accounting.formatMoney(dollarHoldings);
+        dollarHoldings = dollarHoldings + ` ( ${coinObj.holdings} )`
     }
 
     // Delete Button
@@ -342,7 +345,7 @@ function displayCoinInPortfolio(coinObj) {
     let tblCellCoinPrice = tblRow.appendChild(document.createElement('td'));
     tblCellCoinPrice.innerHTML = `
          <p class="coinPrice">${coinObj.priceUSD}</p>
-         <p class="coinPrice">${holdingDollars}</p>
+         <p class="coinPrice">${dollarHoldings}</p>
 
      `;
 
