@@ -124,3 +124,45 @@ form i {
 .newsArtcileImg {
   width: 100px;
 }
+
+/* Crypto compare ......................................... */
+.searchContainer {
+  border: 2px solid lightgray;
+  padding: 5px 10px 5px 10px;
+  margin-bottom: 20px;
+}
+
+.actionSelector {
+  width: 250px;
+}
+
+.coinResultContainer {
+  border: 2px solid lightgray;
+  padding: 5px 10px 5px 10px;
+  margin-bottom: 20px;
+}
+
+.upperCaseInput {
+  text-transform:uppercase;
+}
+.coinsSection {
+  border: 2px solid lightgray;
+}
+
+.coinName {
+  color: black;
+}
+
+.coinSymbol {
+  color: orange;
+}
+
+.coinPrice {
+  color: black;
+  background-color: lightgray;
+}
+
+.coinChange {
+  color: black;
+  background-color: lightgray;
+}
