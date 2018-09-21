@@ -40,14 +40,14 @@ label {
 }
 
 .userHeader h1,
-h6,
-h5 {
+.userHeader h6,
+.userHeader h5 {
   text-align: center;
 }
 
-i {
+/* i {
   font-size: 24px;
-}
+} */
 
 .background {
   background-color: white;

@@ -7,7 +7,7 @@ var config = {
     projectId: "cryptocurrecny-f7eb7",
     storageBucket: "cryptocurrecny-f7eb7.appspot.com",
     messagingSenderId: "917854135892"
-};
+  };
 // Initialize Firebase
 firebase.initializeApp(config);
 // create a variable named database to store your db connection
@@ -19,13 +19,13 @@ let userPortfRef = db.ref('cryptoPortfolio');
 // Functions .......................................................
 function addUserAccount(userId, userName) {
 
-        // prepare user account object
-        let userAccount = {
-            userId: userId,
-            userName: userName
-        }
-        // Add user account
-        userAcctRef.push(userAccount);
+    // prepare user account object
+    let userAccount = {
+        userId: userId,
+        userName: userName
+    }
+    // Add user account
+    userAcctRef.push(userAccount);
 }
 
 function doesAccountExist(userId) {
