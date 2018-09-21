@@ -185,6 +185,8 @@ function addCoinToList(userId, coinName, coinSymbol, coinHold) {
 }
 
 function deleteCoin(userId, coinSymbol) {
+     
+    let refreshScreen = true;
 
     userId = userId.trim();
     coinSymbol = coinSymbol.trim();
@@ -236,10 +238,12 @@ function deleteCoin(userId, coinSymbol) {
             // add to database only if there any coins in protfolio
             if (curWatchList.length > 0) {
                 userPortfRef.push(userPortfolio);
-            }
-           
+                refreshScreen = false;
+            }     
         }
     }
+
+    return refreshScreen;
 }
 
 function getUserPortfolio(userId) {
@@ -419,9 +423,10 @@ function deleteCoinOnClick(coinSymbol) {
     console.log(userId);
     console.log(coinSymbol);
 
-    deleteCoin(userId, coinSymbol);
-
-   // refreshUserPortflio();
+    let refreshScreen = deleteCoin(userId, coinSymbol);
+    if(refreshScreen) {
+        refreshUserPortflio();
+    }
 }
 
 function updateCoinOnClick(coinName, coinSymbol, coinPriceUSD, coinHoldings) {
