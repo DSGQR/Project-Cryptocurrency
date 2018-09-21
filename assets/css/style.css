@@ -45,10 +45,6 @@ label {
   text-align: center;
 }
 
-/* i {
-  font-size: 24px;
-} */
-
 .background {
   background-color: white;
   border: 2px solid white;
@@ -173,4 +169,8 @@ footer {
     height: 50px;
     background-color: rgba(0, 0, 0, .5);
     z-index: 10;
+  }
+
+a.carousel-control-next, a.carousel-control-prev {
+  width: 50px;
 }
