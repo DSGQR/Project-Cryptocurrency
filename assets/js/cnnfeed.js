@@ -41,8 +41,6 @@ function displayArticles(searchNewsTopic) {
     })
     .then(function (data) {
 
-      console.log(data.articles);
-
       // If articles are returned, display them
       if (data.articles.length > 1) {
 

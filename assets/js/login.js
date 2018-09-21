@@ -1,20 +1,11 @@
+// TODO: This shoudl be for login purpose and not display portfolio!
 //check if logged in
 function userCheck() {
   if (localStorage.getItem('cw-username-test')) {
     document.querySelector('#js-user-page').innerHTML = `
-                    <h4>${localStorage.getItem('cw-username-test')} is logged in</h1>
-                        <button class="btn btn-danger" onclick="logout()">Logout</button>
-                        <h2>Total: $123</h2>
-                            <h3>Portfolio:</h3>
-                            <table class='table'>
-                                <tr>
-                                    <th>coin</th> <th>holdings</th> <th>USD</th> <th>Change</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Example</td> <td>123456</td> <td>$123</td> <td>1.5%</td>
-                                        </tr>
-                                        </table>
-                                        `
+     <h4>${localStorage.getItem('cw-username-test')} is logged in</h1>
+     <button class="btn btn-danger" onclick="logout()">Logout</button>
+    `
     //call function to display portfolio etc
     //
   } else {
@@ -126,40 +117,40 @@ function logout() {
 //run initial check on page load
 userCheck()
 
-function displayAccountInfo() {
-  document.getElementById('js-user-page').innerHTML = `
-                    <div class="userHeader">
-                    <h6 class="topText">Your Portfolio Balance:</h6>
-                    <h1>$7,459.23</h1>
-                    <h6>test ^</h6>
-                </div>
+// function displayAccountInfo() {
+//   document.getElementById('js-user-page').innerHTML = `
+//                     <div class="userHeader">
+//                     <h6 class="topText">Your Portfolio Balance:</h6>
+//                     <h1>$7,459.23</h1>
+//                     <h6>test ^</h6>
+//                 </div>
     
-                    <!-- < div class="searchPage" >
-                        <button type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-plus"></i></button>
-                </div > -->
+//                     <!-- < div class="searchPage" >
+//                         <button type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-plus"></i></button>
+//                 </div > -->
     
-                    <div class="footer">
-                        <div class="background">
-                            <!-- <p>Bitcoin Watch Item</p>
-                            <p>Ethereum Watch Item</p>
-                            <p>Litecoin Watch Item</p>
-                            <p>Ripple Watch Item</p> -->
+//                     <div class="footer">
+//                         <div class="background">
+//                             <!-- <p>Bitcoin Watch Item</p>
+//                             <p>Ethereum Watch Item</p>
+//                             <p>Litecoin Watch Item</p>
+//                             <p>Ripple Watch Item</p> -->
             
-                    <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Coin</th>
-                                        <th scope="col">Holding</th>
-                                        <th scope="col">BTC Price</th>
-                                        <th scope="col">Dollar Price</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="marketTable2">
-                                </tbody>
-                            </table>
+//                     <table class="table">
+//                                 <thead>
+//                                     <tr>
+//                                         <th scope="col">Coin</th>
+//                                         <th scope="col">Holding</th>
+//                                         <th scope="col">BTC Price</th>
+//                                         <th scope="col">Dollar Price</th>
+//                                         <th scope="col">Status</th>
+//                                     </tr>
+//                                 </thead>
+//                                 <tbody class="marketTable2">
+//                                 </tbody>
+//                             </table>
     
-                        </div>
-                    </div>
-                `
-}
+//                         </div>
+//                     </div>
+//                 `
+// }

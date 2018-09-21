@@ -12,9 +12,11 @@ var config = {
 firebase.initializeApp(config);
 // create a variable named database to store your db connection
 const db = firebase.database();
+
+// USER ACCOUNT ====================================================================
+
 // Create a reference to user folders
 let userAcctRef = db.ref('cryptoAccounts'); // do not use keyword 'userAccount'
-let userPortfRef = db.ref('cryptoPortfolio');
 
 // Functions .......................................................
 function addUserAccount(userId, userName) {
@@ -29,7 +31,6 @@ function addUserAccount(userId, userName) {
 }
 
 function doesAccountExist(userId) {
-    console.log('in doesaccountexist function')
     let isRecordAvailable = false;
     // Look for the trains that match the name
     userAcctRef.orderByChild('userId').equalTo(userId).on('value', data => {
@@ -38,7 +39,6 @@ function doesAccountExist(userId) {
             isRecordAvailable = true;
         });
     })
-    console.log(isRecordAvailable)
     return isRecordAvailable;
 }
 
@@ -66,15 +66,11 @@ function SubmitUserAccount() {
     document.getElementById("userNameErr").innerHTML = '';
     document.getElementById("userPwdErr").innerHTML = '';
 
-    // retreive data from screen
     let userId = document.getElementById("uId").value.trim();
     let userName = document.getElementById("uName").value.trim();
     let userPwd = document.getElementById("uPwd").value.trim();
 
-    console.log("userId: " + userId);
-    console.log("userName: " + userName);
-    console.log("userPwd: " + userPwd);
-
+    // add user account to database
     addUserAccount(userId, userName, userPwd);
 
     document.getElementById('userAccts').innerHTML = '';
@@ -99,9 +95,6 @@ function DeleteUserAccount() {
             let recKey = elementNode.key;
             let usrAcct = elementNode.val();
 
-            console.log("recKey: " + recKey);
-            console.log("userId: " + usrAcct.userId);
-
             // For the record with matching keys, delete it
             if (usrAcct.userId === userId) {
                 // Delete object
@@ -113,13 +106,17 @@ function DeleteUserAccount() {
     })
 }
 
+// USER PROTFOLIO ==========================================================
+
+// Create a reference to user folders
+let userPortfRef = db.ref('cryptoPortfolio');
 
 function addCoinToList(userId, coinName, coinSymbol, coinHold) {
 
     userId = userId.trim();
     coinName = coinName.trim();
-    coinHold = coinHold.trim();
     coinSymbol = coinSymbol.trim()
+    coinHold = coinHold.trim() === '' ? '' : parseFloat(coinHold.trim());
 
     let errorFound = false;
 
@@ -187,9 +184,11 @@ function addCoinToList(userId, coinName, coinSymbol, coinHold) {
 }
 
 function deleteCoin(userId, coinSymbol) {
+
     userId = userId.trim();
     coinSymbol = coinSymbol.trim();
     let errorFound = false;
+
     // does account already exist?
     let isUserAcountExist = doesAccountExist(userId);
     if (!isUserAcountExist) {
@@ -203,6 +202,7 @@ function deleteCoin(userId, coinSymbol) {
         let recKey = null;
         let curWatchList = [];
         let pos = -1;
+
         if (usrPortfolio != null) {
             recKey = usrPortfolio.key;
             curWatchList = usrPortfolio.val().watchList;
@@ -244,6 +244,7 @@ function getUserPortfolio(userId) {
 
     // Look for the trains that match the name
     userPortfRef.orderByChild('userId').equalTo(userId).on('value', data => {
+
         data.forEach(portfolio => {
             // use val() to retrieve the objects
             usrPortfolio = portfolio;
@@ -253,88 +254,217 @@ function getUserPortfolio(userId) {
     return usrPortfolio;
 }
 
-// A FIRST access is need to tthe tables in order for function to work
-function refreshUserAccounts() {
-    // process all records in database
-    userAcctRef.on('value', data => {
-        //loop over all nodes
-        data.forEach(elementNode => {
-            // get node key and data
-            var recKey = elementNode.key;
-            var userAcct = elementNode.val();
+function prepareUserPortfolio(usrPortf) {
 
-            // just to make app aware uf user accounts
-        });
-    })
+    document.getElementById('portfolio-data').innerHTML = '';
+
+    // get and process each coin in protfolio
+    for (let i = 0; i < usrPortf.watchList.length; i++) {
+        // get the coin
+        coin = usrPortf.watchList[i];
+        // conver to coin object
+        let coinObj = new cryptoCoin(coin.coinName, coin.coinSymbol);
+        coinObj.holdings = coin.hold;
+        // obtain coin proce and display
+        getCoinPricePortfolio(coinObj);
+    }
 }
 
+function getCoinPricePortfolio(coinObj) {
+
+    // get USD price
+    let url = 'https://min-api.cryptocompare.com/data/pricemultifull';
+    url += '?fsyms=' + coinObj.symbol;
+    url += '&tsyms=USD';
+
+    fetch(url)
+        .then(function (response) {
+            // Parse response 
+            return response.json();
+        })
+        .then(function (data) {
+
+            // Get root object
+            const dataObj = data.DISPLAY;
+            const displayArray = convertObjectToArray(dataObj);
+            const coinArr = convertObjectToArray(displayArray);
+            const infoArr = coinArr[0];
+            // add price propreties
+            coinObj.priceUSD = infoArr.USD['PRICE'];
+            coinObj.change24hr = infoArr.USD['CHANGE24HOUR'];
+            coinObj.changePct24hr = infoArr.USD['CHANGEPCT24HOUR'] + " %";
+
+            // Display coin in protfolio view
+            displayCoinInPortfolio(coinObj);
+
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+}
+
+function displayCoinInPortfolio(coinObj) {
+
+    // create a new table row
+    let tblRow = document.createElement('tr');
+    let holdingDollars = '';
+    if (coinObj.holdings !== '') {
+        holdingDollars = coinObj.holdings * coinObj.priceUSD;
+    }
+
+    // Delete Button
+    let tblCellDelBtn = tblRow.appendChild(document.createElement('td'));
+    tblCellDelBtn.innerHTML = `
+         <button class="btn btn-primary rowBtn" data-toggle="tooltip" title="Delete" 
+              onclick="deleteCoinOnClick('${coinObj.symbol}')">
+              <i class="far fa-trash-alt"></i>
+         </button>
+      `
+
+    // update button
+    let tblCellUpdBtn = tblRow.appendChild(document.createElement('td'));
+    tblCellUpdBtn.innerHTML = `
+        <button class="btn btn-primary rowBtn" data-toggle="tooltip" title="Edit" 
+             onclick="updateCoinOnClick('${coinObj}')">
+           <i class="fas fa-edit"></i>
+        </button>
+     `
+
+    //Coin
+    let tblCellCoinName = tblRow.appendChild(document.createElement('td'));
+    tblCellCoinName.innerHTML = `
+         <p class="coinName">${coinObj.name}</p>
+         <p class="coinSymbol">${coinObj.symbol}</p>
+      `;
+
+    //Price
+    let tblCellCoinPrice = tblRow.appendChild(document.createElement('td'));
+    tblCellCoinPrice.innerHTML = `
+         <p class="coinPrice">${coinObj.priceUSD}</p>
+         <p class="coinPrice">${holdingDollars}</p>
+
+     `;
+
+    //Change
+    let tblCellCoinChange = tblRow.appendChild(document.createElement('td'));
+    tblCellCoinChange.innerHTML = `
+        <p class="coinChange">${coinObj.change24hr}</p>
+        <p class="coinChange">${coinObj.changePct24hr}</p>
+      `;
+
+    // Append card to div
+    document.getElementById('portfolio-data').appendChild(tblRow);
+}
+
+// userPortfRef.on('child_added', data => {
+//     let userPort = data.val();
+//     console.log(userPort);
+
+//     // retreive data from screen
+//     let userId = localStorage.getItem('cw-username-test');
+
+//     // it will only retreive teh child node that was added
+//     if (userPort != null && userPort.userId === userId) {
+//         // dislay records here
+//         displayUserPortfolio(userPort);
+//     }
+// })
+
+// A FIRST access is need to tthe tables in order for function to work (wierd)
 function refreshUserPortflio() {
+    document.getElementById('portfolio-data').innerHTML = '';
+    // get user from local storage 
+    let userId = localStorage.getItem('cw-username-test');
+
     // process all records in database
     userPortfRef.on('value', data => {
         //loop over all nodes
         data.forEach(elementNode => {
             // get node key and data
             var recKey = elementNode.key;
-            var userPortf = elementNode.val();
-            if (userPortf != null) {
-                displayUserPortfolio(recKey, userPortf) //figure this out
+            var userPort = elementNode.val();
+            // it will only retreive the child node that was added
+            if (userPort != null && userPort.userId === userId) {
+                // dislay records here
+                prepareUserPortfolio(userPort);
             }
         });
     })
 }
 
-function displayUserPortfolio(recKey, usrPortf) {
-
-    for (let i = 0; i < usrPortf.watchList.length; i++) {
-
-        coin = usrPortf.watchList[i];
-
-    //     let item = document.createElement('div');
-    //     item.innerHTML = `
-    //     <p>${usrPortf.userId} "/" ${coin.coinName} "/" ${coin.hold}</p>
-    //   `
-    //     document.getElementById('usrPprotfolio').appendChild(item);
-    }
-
-
-}
-
-function SubmitCoin() {
-    // Control default behavior for "submit" button
-    event.preventDefault();
-
-    // retreive data from screen
-    let userId = document.getElementById("uId").value.trim();
-    let coinName = document.getElementById("cName").value.trim();
-    let coinHold = document.getElementById("cHold").value.trim();
-    let isFav = document.getElementById("cFav").checked;
-
-    console.log("to Add/Update");
-    console.log(userId);
-    console.log(coinName);
-    console.log(coinHold);
-    console.log(isFav);
-
-    addCoinToList(userId, coinName, coinHold, isFav);
-
-    document.getElementById('usrPportfolio').innerHTML = '';
-    refreshUserPortflio();
-}
-
-function SubmitDeleteCoin() {
+// EVENTS ..................................................
+function deleteCoinOnClick(coinSymbol) {
     // Control default behavior for "submit" button
     event.preventDefault();
     // retreive data from screen
-    let userId = document.getElementById("uId").value.trim();
-    let coinName = document.getElementById("cName").value.trim();
+    let userId = localStorage.getItem('cw-username-test');
 
     console.log("to Delete");
     console.log(userId);
-    console.log(coinName);
+    console.log(coinSymbol);
 
-    deleteCoin(userId, coinName);
-    document.getElementById('usrPportfolio').innerHTML = '';
-    refreshUserPortflio();
+    deleteCoin(userId, coinSymbol);
+}
+
+function updateCoinOnClick(coinObj) {
+    // Control default behavior for "submit" button
+    event.preventDefault();
+    
+    console.log(coinObj);
+
+    // retreive data from screen
+    let userId = localStorage.getItem('cw-username-test');
+
+    if (localStorage.getItem('cw-username-test')) {
+
+        if (document.getElementById('holdingForm').getAttribute('class') === "holdingsForm d-none") {
+            // Add holding coing name 
+            document.getElementById('holdingsCoinName').innerHTML = coinObj.name;
+            // Add holding coing name 
+            document.getElementById('coinPrice').innerHTML = coinObj.priceUSD;
+            // Show holding dollars
+            document.getElementById('holdingDollars').innerHTML = coinObj.holdings;
+            // Make Holding form visible
+            document.getElementById('holdingForm').setAttribute('class', 'holdingsForm');
+        } else {
+             // Add holding coing name 
+             document.getElementById('holdingsCoinName').innerHTML = '';
+             // Add holding coing name 
+            document.getElementById('coinPrice').innerHTML = '';
+             // Show holding dollars
+             document.getElementById('holdingDollars').innerHTML = '';
+             // Make Holding form visible
+             document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
+        }
+
+
+
+    }
+
+}
+
+function saveHoldingsOnClick() {
+    // Control default behavior for "submit" button
+    event.preventDefault();
+
+    // retreive data from screen
+    let userId = localStorage.getItem('cw-username-test');
+
+    console.log("Save holdings");
+
+    console.log(userId);
+    console.log(coinName);
+    console.log(coinSymbol);
+    console.log(coinHold);
+
+    // if (localStorage.getItem('cw-username-test')) {
+    //     // add new coin
+    //     addCoinToList(coinName, coinSymbol, coinHold);
+    // }
+
+    // document.getElementById('usrPportfolio').innerHTML = '';
+    // refreshUserPortflio();
+
 }
 
 refreshUserAccounts();

@@ -145,8 +145,10 @@ form i {
   border: 2px solid lightgray;
 }
 
+/* TODO: adjust for to be clear */
 .coinName {
-  color: black;
+  color: white; 
+  font-weight: bold
 }
 
 .coinSymbol {
@@ -154,13 +156,13 @@ form i {
 }
 
 .coinPrice {
-  color: black;
-  background-color: lightgray;
+  color: white;
+  /* background-color: lightgray; */
 }
 
 .coinChange {
-  color: black;
-  background-color: lightgray;
+  color: white;
+  /* background-color: lightgray; */
 }
 
 footer {
