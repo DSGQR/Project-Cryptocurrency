@@ -233,8 +233,11 @@ function deleteCoin(userId, coinSymbol) {
                 userPortfRef.child(recKey).remove();
             }
 
-            // add to database 
-            userPortfRef.push(userPortfolio);
+            // add to database only if there any coins in protfolio
+            if (curWatchList.lenght >0) {
+                userPortfRef.push(userPortfolio);
+            }
+           
         }
     }
 }
@@ -259,15 +262,17 @@ function prepareUserPortfolio(usrPortf) {
 
     document.getElementById('portfolio-data').innerHTML = '';
 
-    // get and process each coin in protfolio
-    for (let i = 0; i < usrPortf.watchList.length; i++) {
-        // get the coin
-        coin = usrPortf.watchList[i];
-        // conver to coin object
-        let coinObj = new cryptoCoin(coin.coinName, coin.coinSymbol);
-        coinObj.holdings = coin.hold;
-        // obtain coin proce and display
-        getCoinPricePortfolio(coinObj);
+    if (usrPortf.watchList !== undefined) {
+        // get and process each coin in protfolio
+        for (let i = 0; i < usrPortf.watchList.length; i++) {
+            // get the coin
+            coin = usrPortf.watchList[i];
+            // conver to coin object
+            let coinObj = new cryptoCoin(coin.coinName, coin.coinSymbol);
+            coinObj.holdings = coin.hold;
+            // obtain coin proce and display
+            getCoinPricePortfolio(coinObj);
+        }
     }
 }
 
@@ -308,7 +313,7 @@ function displayCoinInPortfolio(coinObj) {
 
     // create a new table row
     let tblRow = document.createElement('tr');
-    let dollarHoldings ='';
+    let dollarHoldings = '';
     if (coinObj.holdings !== '') {
         priceUSD = convertDollarFomratToFloat(coinObj.priceUSD);
         dollarHoldings = coinObj.holdings * parseFloat(priceUSD);
@@ -395,7 +400,7 @@ function refreshUserPortflio() {
             var recKey = elementNode.key;
             var userPort = elementNode.val();
             // it will only retreive the child node that was added
-            if (userPort != null && userPort.userId === userId) {
+            if (userPort !== null && userPort.userId === userId) {
                 // dislay records here
                 prepareUserPortfolio(userPort);
             }
@@ -473,12 +478,12 @@ function saveHoldingsOnClick() {
     let userId = localStorage.getItem('cw-username-test');
 
     if (localStorage.getItem('cw-username-test')) {
-        
+
         // retrevie coin name and symbol
         let coinNameSymbol = document.getElementById('holdingDecimals').getAttribute('data-value')
         // get value from input
         let coinHoldings = document.getElementById('holdingDecimals').value;
-        
+
         // separate coin nanme and symbol
         let coinArr = coinNameSymbol.split(',');
         let coinName = coinArr[0];
@@ -498,24 +503,24 @@ function saveHoldingsOnClick() {
         console.log(coinHoldings);
 
         // add new coin
-        if(coinName !== '' && coinSymbol !== '') {
+        if (coinName !== '' && coinSymbol !== '') {
             // store the coin in DB with holdings
-            addCoinToList(userId,coinName, coinSymbol, coinHoldings);
-        }  
-        
+            addCoinToList(userId, coinName, coinSymbol, coinHoldings);
+        }
+
         // Close input screen 
-         // resetset coin in data-value attribute
-         document.getElementById('holdingDecimals').setAttribute('data-value', '');
-         // Add holding coing name 
-         // Add holding coing name 
-         document.getElementById('holdingsSymbol').innerHTML = '';
-         // Add holding coing name 
-         document.getElementById('coinPrice').innerHTML = '';
-         document.getElementById('holdingDecimals').value = '';
-         // Show holding decimals
-         document.getElementById('holdingDollars').innerHTML = '';
-         // Make Holding form visible
-         document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
+        // resetset coin in data-value attribute
+        document.getElementById('holdingDecimals').setAttribute('data-value', '');
+        // Add holding coing name 
+        // Add holding coing name 
+        document.getElementById('holdingsSymbol').innerHTML = '';
+        // Add holding coing name 
+        document.getElementById('coinPrice').innerHTML = '';
+        document.getElementById('holdingDecimals').value = '';
+        // Show holding decimals
+        document.getElementById('holdingDollars').innerHTML = '';
+        // Make Holding form visible
+        document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
     }
 }
 

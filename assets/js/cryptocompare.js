@@ -232,6 +232,9 @@ function addCoinToPortfolio(coinName, coinSymbol) {
 
   event.preventDefault();
   
+  console.log(coinName)
+  console.log(coinSymbol)
+
   // Get user from local storage 
   let userId = localStorage.getItem('cw-username-test');
   let coinHold = '';
