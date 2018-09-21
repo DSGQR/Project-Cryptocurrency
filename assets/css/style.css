@@ -68,8 +68,11 @@ label {
 }
 
 .card {
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
+  border-radius: 25px;
+}
+
+.card-header > h4 {
+  margin-bottom: 0;
 }
 
 .card,
