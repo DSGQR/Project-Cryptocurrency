@@ -90,12 +90,3 @@ h4, h5, h6, label {
 .background p, h6, .topText, th, form i {
     font-family: 'Raleway', sans-serif;
 }
-
-/* Media Query */
-@media screen and (max-width: 767px) {
-    div.scrollForSmall:after {
-      content: "  ( scroll right -> )";
-      font-size: .6em;
-    }
-    
-  }
