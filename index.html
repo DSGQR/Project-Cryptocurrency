@@ -97,16 +97,16 @@
               <div class="form-group">
                 <div class="row">
                     <div class="col-sm-2">
-                        <label id="holdingsCoinName"></label>
+                        <label id="holdingsSymbol"></label>
                     </div>
                     <div class="col-sm-2">
-                        <label id="coinPrice">$1,200</label>
+                        <label id="coinPrice"></label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="tHoldings" placeholder="Holdings..." type="text">
+                        <input id="holdingDecimals" class="form-control" id="tHoldings" placeholder="Holdings..." type="text">
                     </div>
                     <div class="col-sm-2">
-                        <label id="holdingDollars">$300</label>
+                        <label id="holdingDollars"></label>
                     </div>
                     <div class="col-sm-2">
                         <button class="btn btn-primary float-right" onclick="saveHoldingsOnClick">Save</button>
@@ -246,6 +246,7 @@
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
   <!-- app.js Linked -->
+  <script src="./assets/js/accounting.js"></script>
   <script src="./assets/js/user.js"></script>
   <script src="./assets/js/login.js"></script>
   <script src="./assets/js/cryptocompare.js"></script>

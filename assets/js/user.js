@@ -325,7 +325,7 @@ function displayCoinInPortfolio(coinObj) {
     let tblCellUpdBtn = tblRow.appendChild(document.createElement('td'));
     tblCellUpdBtn.innerHTML = `
         <button class="btn btn-primary rowBtn" data-toggle="tooltip" title="Edit" 
-             onclick="updateCoinOnClick('${coinObj}')">
+             onclick="updateCoinOnClick('${coinObj.symbol}','${coinObj.priceUSD}','${coinObj.holdings}')">
            <i class="fas fa-edit"></i>
         </button>
      `
@@ -354,6 +354,13 @@ function displayCoinInPortfolio(coinObj) {
 
     // Append card to div
     document.getElementById('portfolio-data').appendChild(tblRow);
+}
+
+function convertDollarFomratToFloat(dollarFigure) {    
+    // remode '$' and ',' symbols
+    let dollarNumber = dollarFigure.replace('$','');
+    dollarNumber = dollarNumber.replace(',','');
+    return(parseFloat(dollarNumber))
 }
 
 // userPortfRef.on('child_added', data => {
@@ -406,11 +413,9 @@ function deleteCoinOnClick(coinSymbol) {
     deleteCoin(userId, coinSymbol);
 }
 
-function updateCoinOnClick(coinObj) {
+function updateCoinOnClick(coinSymbol, coinPriceUSD, coinHoldings) {
     // Control default behavior for "submit" button
     event.preventDefault();
-    
-    console.log(coinObj);
 
     // retreive data from screen
     let userId = localStorage.getItem('cw-username-test');
@@ -419,22 +424,33 @@ function updateCoinOnClick(coinObj) {
 
         if (document.getElementById('holdingForm').getAttribute('class') === "holdingsForm d-none") {
             // Add holding coing name 
-            document.getElementById('holdingsCoinName').innerHTML = coinObj.name;
+            document.getElementById('holdingsSymbol').innerHTML = coinSymbol;
             // Add holding coing name 
-            document.getElementById('coinPrice').innerHTML = coinObj.priceUSD;
-            // Show holding dollars
-            document.getElementById('holdingDollars').innerHTML = coinObj.holdings;
+            document.getElementById('coinPrice').innerHTML = coinPriceUSD;
+            // Show holding decimal
+            document.getElementById('holdingDecimals').value = coinHoldings;
+            
+             // Preapre holding dollars
+            let dollarHoldings = 0;
+            if (coinHoldings !== '') {
+                priceUSD = convertDollarFomratToFloat(coinPriceUSD);
+                dollarHoldings = coinHoldings * parseFloat(priceUSD);    
+            }
+            // Holdings in dollars
+            document.getElementById('holdingDollars').innerHTML = accounting.formatMoney(dollarHoldings);
+
             // Make Holding form visible
             document.getElementById('holdingForm').setAttribute('class', 'holdingsForm');
         } else {
-             // Add holding coing name 
-             document.getElementById('holdingsCoinName').innerHTML = '';
-             // Add holding coing name 
+            // Add holding coing name 
+            document.getElementById('holdingsSymbol').innerHTML = '';
+            // Add holding coing name 
             document.getElementById('coinPrice').innerHTML = '';
-             // Show holding dollars
-             document.getElementById('holdingDollars').innerHTML = '';
-             // Make Holding form visible
-             document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
+            document.getElementById('holdingDecimals').value = '';
+            // Show holding decimals
+            document.getElementById('holdingDollars').innerHTML = '';
+            // Make Holding form visible
+            document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
         }
 
 
