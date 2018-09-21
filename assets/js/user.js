@@ -234,7 +234,7 @@ function deleteCoin(userId, coinSymbol) {
             }
 
             // add to database only if there any coins in protfolio
-            if (curWatchList.lenght >0) {
+            if (curWatchList.length > 0) {
                 userPortfRef.push(userPortfolio);
             }
            
@@ -420,6 +420,8 @@ function deleteCoinOnClick(coinSymbol) {
     console.log(coinSymbol);
 
     deleteCoin(userId, coinSymbol);
+
+   // refreshUserPortflio();
 }
 
 function updateCoinOnClick(coinName, coinSymbol, coinPriceUSD, coinHoldings) {
