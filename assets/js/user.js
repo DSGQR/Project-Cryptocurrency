@@ -42,20 +42,19 @@ function doesAccountExist(userId) {
     return isRecordAvailable;
 }
 
-// A FIRST access is need to tthe tables in order for function to work
-function refreshUserAccounts() {
-    // process all records in database
-    userAcctRef.on('value', data => {
-        //loop over all nodes
-        data.forEach(elementNode => {
-            // get node key and data
-            var recKey = elementNode.key;
-            var userAcct = elementNode.val();
-        });
-    })
-}
-
 // EVENTS ...............................................
+
+// IMPORTAN: This must be outside a funciton.
+// If inside the function, it will still be executed
+userAcctRef.on('value', data => {
+    //loop over all nodes
+    data.forEach(elementNode => {
+        // get node key and data
+        var recKey = elementNode.key;
+        var userAcct = elementNode.val();
+    });
+})
+
 function SubmitUserAccount() {
 
     // Control default behavior for "submit" button
@@ -74,7 +73,6 @@ function SubmitUserAccount() {
     addUserAccount(userId, userName, userPwd);
 
     document.getElementById('userAccts').innerHTML = '';
-    refreshUserAccounts();
 }
 
 function DeleteUserAccount() {
@@ -100,7 +98,6 @@ function DeleteUserAccount() {
                 // Delete object
                 userAcctRef.child(recKey).remove();
                 document.getElementById('userAccts').innerHTML = '';
-                refreshUserAccounts();
             }
         });
     })
@@ -111,14 +108,9 @@ function DeleteUserAccount() {
 // Create a reference to user folders
 let userPortfRef = db.ref('cryptoPortfolio');
 var userProtfolioTotal = 0;
+document.getElementById('pTotal').innerHTML = '$0.00';
 
 function addCoinToList(userId, coinName, coinSymbol, coinHold) {
-
-    // userId = userId.trim();
-    // coinName = coinName.trim();
-    // coinSymbol = coinSymbol.trim()
-
-    // coinHold = coinHold.trim() === '' ? '' : parseFloat(coinHold.trim());
 
     let errorFound = false;
 
@@ -278,11 +270,11 @@ function prepareUserPortfolio(usrPortf) {
     userProtfolioTotal = 0;
 
     if (usrPortf.watchList !== undefined) {
-        
+
         // Sort watch list by name
         coinLst = usrPortf.watchList;
         coinLst.sort(compareCoins);
-        
+
         // get and process each coin in protfolio
         for (let i = 0; i < coinLst.length; i++) {
             // get the coin
@@ -399,46 +391,26 @@ function convertDollarFomratToFloat(dollarFigure) {
     return (parseFloat(dollarNumber))
 }
 
-// userPortfRef.on('child_added', data => {
-//     let userPort = data.val();
-//     console.log(userPort);
-
-//     // retreive data from screen
-//     let userId = localStorage.getItem('cw-username');
-
-//     // it will only retreive teh child node that was added
-//     if (userPort != null && userPort.userId === userId) {
-//         // dislay records here
-//         displayUserPortfolio(userPort);
-//     }
-// })
-
-// A FIRST access is need to tthe tables in order for function to work (wierd)
-function refreshUserPortflio() {
-
-    // remove screen entries before rendering datat again
-    document.getElementById('portfolio-data').innerHTML = '';
-
-    // get user from local storage 
-    let userId = localStorage.getItem('cw-username');
-
-    // process all records in database
-    userPortfRef.on('value', data => {
-        //loop over all nodes
-        data.forEach(elementNode => {
-            // get node key and data
-            var recKey = elementNode.key;
-            var userPort = elementNode.val();
-            // it will only retreive the child node that was added
-            if (userPort !== null && userPort.userId === userId) {
-                // dislay records here
-                prepareUserPortfolio(userPort);
-            }
-        });
-    })
-}
-
 // EVENTS ..................................................
+
+// IMPORTAN: This must be outside a funciton.
+// If inside the function, it will still be executed
+userPortfRef.orderByChild('userId').equalTo(localStorage.getItem('cw-username')).on('value', data => {
+    // clear portfolio screen
+    document.getElementById('portfolio-data').innerHTML = '';
+    //loop over all nodes
+    data.forEach(elementNode => {
+        // get node key and data
+        var recKey = elementNode.key;
+        var userPort = elementNode.val();
+        // it will only retreive the child node that was added
+        if (userPort !== null && userPort.userId === localStorage.getItem('cw-username')) {
+            // dislay records here
+            prepareUserPortfolio(userPort);
+        }
+    });
+})
+
 function deleteCoinOnClick(coinSymbol) {
     // Control default behavior for "submit" button
     event.preventDefault();
@@ -447,7 +419,6 @@ function deleteCoinOnClick(coinSymbol) {
 
     let refreshScreen = deleteCoin(userId, coinSymbol);
     if (refreshScreen) {
-        refreshUserPortflio();
         document.getElementById('pTotal').innerHTML = '$0.00';
     }
 }
@@ -546,7 +517,3 @@ function saveHoldingsOnClick() {
         document.getElementById('holdingForm').setAttribute('class', 'holdingsForm d-none');
     }
 }
-
-document.getElementById('pTotal').innerHTML = '$0.00';
-refreshUserAccounts();
-refreshUserPortflio();
