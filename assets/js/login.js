@@ -1,9 +1,9 @@
 // TODO: This shoudl be for login purpose and not display portfolio!
 //check if logged in
 function userCheck() {
-  if (localStorage.getItem('cw-username-test')) {
+  if (localStorage.getItem('cw-username')) {
     document.querySelector('#js-user-page').innerHTML = `
-     <h4>${localStorage.getItem('cw-username-test')} is logged in</h1>
+     <h4>${localStorage.getItem('cw-username')} is logged in</h1>
      <button class="btn btn-danger" onclick="logout()">Logout</button>
     `
     //call function to display portfolio etc
