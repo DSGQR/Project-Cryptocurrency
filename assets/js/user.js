@@ -395,22 +395,24 @@ function convertDollarFomratToFloat(dollarFigure) {
 
 // IMPORTAN: This must be outside a funciton.
 // If inside the function, it will still be executed
-userPortfRef.orderByChild('userId').equalTo(localStorage.getItem('cw-username')).on('value', data => {
-    // clear portfolio screen
-    document.getElementById('portfolio-data').innerHTML = '';
-    //loop over all nodes
-    data.forEach(elementNode => {
-        // get node key and data
-        var recKey = elementNode.key;
-        var userPort = elementNode.val();
-        // it will only retreive the child node that was added
-        if (userPort !== null && userPort.userId === localStorage.getItem('cw-username')) {
-            // dislay records here
-            prepareUserPortfolio(userPort);
-        }
-    });
-})
-
+if (localStorage.getItem('cw-username')){
+    userPortfRef.orderByChild('userId').equalTo(localStorage.getItem('cw-username')).on('value', data => {
+        // clear portfolio screen
+        document.getElementById('portfolio-data').innerHTML = '';
+        //loop over all nodes
+        data.forEach(elementNode => {
+            // get node key and data
+            var recKey = elementNode.key;
+            var userPort = elementNode.val();
+            // it will only retreive the child node that was added
+            if (userPort !== null && userPort.userId === localStorage.getItem('cw-username')) {
+                // dislay records here
+                prepareUserPortfolio(userPort);
+            }
+        });
+    })
+}
+    
 function deleteCoinOnClick(coinSymbol) {
     // Control default behavior for "submit" button
     event.preventDefault();
