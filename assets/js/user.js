@@ -110,6 +110,7 @@ function DeleteUserAccount() {
 
 // Create a reference to user folders
 let userPortfRef = db.ref('cryptoPortfolio');
+var userProtfolioTotal = 0;
 
 function addCoinToList(userId, coinName, coinSymbol, coinHold) {
 
@@ -265,8 +266,11 @@ function getUserPortfolio(userId) {
 function prepareUserPortfolio(usrPortf) {
 
     document.getElementById('portfolio-data').innerHTML = '';
+    document.getElementById('pTotal').innerHTML = '$0.00';
+    userProtfolioTotal = 0;
 
     if (usrPortf.watchList !== undefined) {
+
         // get and process each coin in protfolio
         for (let i = 0; i < usrPortf.watchList.length; i++) {
             // get the coin
@@ -321,8 +325,15 @@ function displayCoinInPortfolio(coinObj) {
     if (coinObj.holdings !== '') {
         priceUSD = convertDollarFomratToFloat(coinObj.priceUSD);
         dollarHoldings = coinObj.holdings * parseFloat(priceUSD);
+        // compute user portfolio total
+        userProtfolioTotal += parseFloat(dollarHoldings);
+        // display coin holdings
         dollarHoldings = accounting.formatMoney(dollarHoldings);
         dollarHoldings = dollarHoldings + ` ( ${coinObj.holdings} )`
+        // display holdings total
+        userProtfolioTotalStr = accounting.formatMoney(userProtfolioTotal);
+        document.getElementById('pTotal').innerHTML = userProtfolioTotalStr;
+      
     }
 
     // Delete Button
@@ -392,7 +403,7 @@ function convertDollarFomratToFloat(dollarFigure) {
 
 // A FIRST access is need to tthe tables in order for function to work (wierd)
 function refreshUserPortflio() {
-    
+
     // remove screen entries before rendering datat again
     document.getElementById('portfolio-data').innerHTML = '';
 
@@ -523,5 +534,6 @@ function saveHoldingsOnClick() {
     }
 }
 
+document.getElementById('pTotal').innerHTML = '$0.00';
 refreshUserAccounts();
 refreshUserPortflio();
