@@ -185,7 +185,7 @@ function addCoinToList(userId, coinName, coinSymbol, coinHold) {
 }
 
 function deleteCoin(userId, coinSymbol) {
-     
+
     let refreshScreen = true;
 
     userId = userId.trim();
@@ -239,7 +239,7 @@ function deleteCoin(userId, coinSymbol) {
             if (curWatchList.length > 0) {
                 userPortfRef.push(userPortfolio);
                 refreshScreen = false;
-            }     
+            }
         }
     }
 
@@ -392,7 +392,10 @@ function convertDollarFomratToFloat(dollarFigure) {
 
 // A FIRST access is need to tthe tables in order for function to work (wierd)
 function refreshUserPortflio() {
+    
+    // remove screen entries before rendering datat again
     document.getElementById('portfolio-data').innerHTML = '';
+
     // get user from local storage 
     let userId = localStorage.getItem('cw-username-test');
 
@@ -419,22 +422,16 @@ function deleteCoinOnClick(coinSymbol) {
     // retreive data from screen
     let userId = localStorage.getItem('cw-username-test');
 
-    console.log("to Delete");
-    console.log(userId);
-    console.log(coinSymbol);
-
     let refreshScreen = deleteCoin(userId, coinSymbol);
-    if(refreshScreen) {
+    if (refreshScreen) {
         refreshUserPortflio();
     }
 }
 
 function updateCoinOnClick(coinName, coinSymbol, coinPriceUSD, coinHoldings) {
+
     // Control default behavior for "submit" button
     event.preventDefault();
-
-    // retreive data from screen
-    let userId = localStorage.getItem('cw-username-test');
 
     if (localStorage.getItem('cw-username-test')) {
 
@@ -503,11 +500,6 @@ function saveHoldingsOnClick() {
                 coinHoldings = '';
             }
         }
-
-        console.log(userId);
-        console.log(coinName);
-        console.log(coinSymbol);
-        console.log(coinHoldings);
 
         // add new coin
         if (coinName !== '' && coinSymbol !== '') {
