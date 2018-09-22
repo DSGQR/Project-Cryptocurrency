@@ -1,13 +1,19 @@
 //If no user logged-in in local storage, display login form
 function userCheck() {
     if (!localStorage.getItem('cw-username')) {
+        //hide portfolio information sections
         document.getElementById('js-user-portfolio').className = 'd-none'
         document.getElementById('js-user-total').className = 'd-none'
+        //hide carousel controls
+        document.getElementById('js-control-prev').className = 'carousel-control-prev carousel-control d-none'
+        document.getElementById('js-control-next').className = 'carousel-control-next carousel-control d-none'
         loginForm()
     }
     else {
         document.getElementById('js-user-portfolio').className = ''
         document.getElementById('js-user-total').className = ''
+        document.getElementById('js-control-prev').className = 'carousel-control-prev carousel-control'
+        document.getElementById('js-control-next').className = 'carousel-control-next carousel-control'
         welcomeUser()
   }
 }
