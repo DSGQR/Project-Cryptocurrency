@@ -73,7 +73,6 @@ function SubmitUserAccount() {
     addUserAccount(userId, userName, userPwd);
 
     document.getElementById('userAccts').innerHTML = '';
-    // refreshUserAccounts();
 }
 
 function DeleteUserAccount() {
@@ -99,7 +98,6 @@ function DeleteUserAccount() {
                 // Delete object
                 userAcctRef.child(recKey).remove();
                 document.getElementById('userAccts').innerHTML = '';
-                // refreshUserAccounts();
             }
         });
     })
