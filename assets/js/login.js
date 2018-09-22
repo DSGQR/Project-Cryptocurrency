@@ -1,7 +1,12 @@
 //If no user logged-in in local storage, display login form
 function userCheck() {
-  if (!localStorage.getItem('cw-username')) {
-      loginForm()
+    if (!localStorage.getItem('cw-username')) {
+        document.getElementById('js-user-portfolio').className = 'd-none'
+        loginForm()
+    }
+    else {
+        document.getElementById('js-user-portfolio').className = ''
+        welcomeUser()
   }
 }
 
@@ -26,9 +31,9 @@ function loginForm() {
         </div>
     `
     //clear page
-    document.querySelector('#js-user-page').innerHTML = ''
+    document.querySelector('#js-user-account').innerHTML = ''
     //append login form
-    document.querySelector('#js-user-page').appendChild(loginContainer)
+    document.querySelector('#js-user-account').appendChild(loginContainer)
 }
 
 //Display Create-Account Form
@@ -37,27 +42,27 @@ function createAccountForm() {
     var createContainer = document.createElement('div')
     createContainer.className = 'card rounded-0'
     createContainer.innerHTML = `
-        <div class="card-header">
-            <h4>Create New Account</h4>
-        </div>
-        <div class='card-body'>
-            <form>
-                <div class="form-group">
-                    <label for="uName">Name <span id="userNameErr" class="text-danger"></span></label>
-                    <input class="form-control" id="uName" placeholder="User name..." type="text">
-                </div>
-                <div class="form-group">
-                    <label for="uId">Username <span id="userIdErr" class="text-danger"></span></label>
-                    <input class="form-control" id="uId" placeholder="User ID..." type="text">
-                </div>
-                <button class="btn btn-primary" onclick="createAccount()">Submit</button>
-            </form>
-        </div>
+    <div class="card-header">
+    <h4>Create New Account</h4>
+    </div>
+    <div class='card-body'>
+    <form>
+    <div class="form-group">
+    <label for="uName">Name <span id="userNameErr" class="text-danger"></span></label>
+    <input class="form-control" id="uName" placeholder="User name..." type="text">
+    </div>
+    <div class="form-group">
+    <label for="uId">Username <span id="userIdErr" class="text-danger"></span></label>
+    <input class="form-control" id="uId" placeholder="User ID..." type="text">
+    </div>
+    <button class="btn btn-primary" onclick="createAccount()">Submit</button>
+    </form>
+    </div>
     `
     //clear page
-    document.querySelector('#js-user-page').innerHTML = ''
+    document.querySelector('#js-user-account').innerHTML = ''
     //append create account form
-    document.querySelector('#js-user-page').appendChild(createContainer)
+    document.querySelector('#js-user-account').appendChild(createContainer)
 }
 
 //Button Submit Login
@@ -118,6 +123,14 @@ function createAccountInputError(userNameInput, userIdInput) {
     return isErrorFound
 }
 
+//Display user account info
+function welcomeUser () {
+    document.querySelector('#js-user-account').innerHTML = `
+        <h4>Welcome ${localStorage.getItem('cw-username')}
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </h4>
+    `
+}
 
 //Button Logout
 function logout() {
