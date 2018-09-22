@@ -3,8 +3,7 @@ html {
 }
 
 body {
-  height: 100%;
-  width: 100%;
+  min-height: 100%;
   background: #363636;
   background: -webkit-linear-gradient(-200deg, #2a2a2a, #000000);
   background: linear-gradient(-200deg, #2a2a2a, #000000);
@@ -12,9 +11,22 @@ body {
   padding: 0;
 }
 
+
 .carousel-indicators,
 .carousel-control {
   position: fixed;
+}
+
+.carousel-indicators li {
+  width: 20%;
+}
+
+.carousel-indicators {
+  align-items: center;
+  margin: 0;
+  bottom: 0;
+  height: 30px;
+  background-color: rgba(0, 0, 0, .5);
 }
 
 .container {
@@ -168,14 +180,6 @@ form i {
   /* background-color: lightgray; */
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    height: 50px;
-    background-color: rgba(0, 0, 0, .5);
-    z-index: 10;
-  }
-
 a.carousel-control-next, a.carousel-control-prev {
-  width: 50px;
+  width: 30px;
 }
