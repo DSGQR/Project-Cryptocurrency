@@ -1,15 +1,7 @@
-// TODO: This shoudl be for login purpose and not display portfolio!
-//check if logged in
+//If no user logged-in in local storage, display login form
 function userCheck() {
-  if (localStorage.getItem('cw-username')) {
-    document.querySelector('#js-user-page').innerHTML = `
-     <h4>${localStorage.getItem('cw-username')} is logged in</h1>
-     <button class="btn btn-danger" onclick="logout()">Logout</button>
-    `
-    //call function to display portfolio etc
-    //
-  } else {
-    loginForm()
+  if (!localStorage.getItem('cw-username')) {
+      loginForm()
   }
 }
 
@@ -135,43 +127,3 @@ function logout() {
 
 //run initial check on page load
 userCheck()
-
-
-//SAMPLE
-// function displayAccountInfo() {
-//     document.getElementById('js-user-page').innerHTML = `
-//                     <div class="userHeader">
-//                     <h6 class="topText">Your Portfolio Balance:</h6>
-//                     <h1>$7,459.23</h1>
-//                     <h6>test ^</h6>
-//                 </div>
-    
-//                     <!-- < div class="searchPage" >
-//                         <button type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-plus"></i></button>
-//                 </div > -->
-    
-//                     <div class="footer">
-//                         <div class="background">
-//                             <!-- <p>Bitcoin Watch Item</p>
-//                             <p>Ethereum Watch Item</p>
-//                             <p>Litecoin Watch Item</p>
-//                             <p>Ripple Watch Item</p> -->
-            
-//                     <table class="table">
-//                                 <thead>
-//                                     <tr>
-//                                         <th scope="col">Coin</th>
-//                                         <th scope="col">Holding</th>
-//                                         <th scope="col">BTC Price</th>
-//                                         <th scope="col">Dollar Price</th>
-//                                         <th scope="col">Status</th>
-//                                     </tr>
-//                                 </thead>
-//                                 <tbody class="marketTable2">
-//                                 </tbody>
-//                             </table>
-    
-//                         </div>
-//                     </div>
-//                 `
-//  }
