@@ -4,16 +4,20 @@ function userCheck() {
         //hide portfolio information sections
         document.getElementById('js-user-portfolio').className = 'd-none'
         document.getElementById('js-user-total').className = 'd-none'
-        //hide carousel controls
+        //hide carousel controls and indicators
         document.getElementById('js-control-prev').className = 'carousel-control-prev carousel-control d-none'
         document.getElementById('js-control-next').className = 'carousel-control-next carousel-control d-none'
+        document.getElementById('js-indicators').className = 'carousel-indicators d-none'
         loginForm()
     }
     else {
+        //show portfolio information sctions
         document.getElementById('js-user-portfolio').className = ''
         document.getElementById('js-user-total').className = ''
+        //show carousel controls and indicators
         document.getElementById('js-control-prev').className = 'carousel-control-prev carousel-control'
         document.getElementById('js-control-next').className = 'carousel-control-next carousel-control'
+        document.getElementById('js-indicators').className = 'carousel-indicators'
         welcomeUser()
   }
 }
