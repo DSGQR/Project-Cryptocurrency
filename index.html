@@ -79,82 +79,86 @@
       <div class="carousel-item active">
         <div class="container">
           <div class="col-md-12">
-            <div class="userHeader mb-3">
-              <h6 class="topText">Your Portfolio Balance:</h6>
-              <h1 id="pTotal">$7,459.23</h1>
-              <h6>test ^</h6>
-            </div>
             
-        <div class="card rounded-0">
-            <div id="js-user-account">
-                      <div class="card-header">
-                        <h4>Login</h4>
-                      </div>
-                      <div class='card-body'>
-                        <form>
-                          <div class="form-group">
-                            <label for="uId">Username <span id="userIdErr" class="text-danger"></span></label>
-                            <input class="form-control" id="uId" placeholder="User ID..." type="text">
-                          </div>
-                          <button class="btn btn-primary" onclick="loginAccount()">Submit</button>
-                          <button class="btn btn-primary" onclick="createAccountForm()">Create Account</button>
-                        </form>
-                      </div>
-            </div>
-            <div id="js-user-portfolio">
-              <div class="card-header">
-                <h3 class="text-white">Portfolio:</h3>
-              </div>
-              <div class="card-body">
-              <form id="holdingForm" class="holdingsForm d-none">
-                
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-sm-2">
-                      <label id="holdingsSymbol"></label>
-                    </div>
-                    <div class="col-sm-2">
-                      <label id="coinPrice"></label>
-                    </div>
-                    <div class="col-sm-4">
-                      <input id="holdingDecimals" class="form-control" id="tHoldings" placeholder="Holdings..." type="text" data-value="">
-                    </div>
-                    <div class="col-sm-2">
-                      <label id="holdingDollars"></label>
-                    </div>
-                    <div class="col-sm-2">
-                      <button class="btn btn-primary float-right" onclick="saveHoldingsOnClick()">Save</button>
-                    </div>   
-                  </div>
+            <div class="userHeader mb-3">
+                <h1> Crypto Watcher</h1>
+                <div id="js-user-total" class="d-none">
+                  <h6 class="topText">Your Portfolio Balance:</h6>
+                  <h1 id="pTotal">$0.00</h1>
                 </div>
-                
-              </form>
-              
-              <div class="table-responsive" style="color:white;">
-                  <table class="table table-striped table-hover table-sm">
-                    <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Coin</th>
-                        <th scope="col">Price/Holdings</th>
-                        <th scope="col">Chg.24h</th>
-                      </tr>
-                    </thead>
-                    <tbody id="portfolio-data" style="color:white;">
-                        
+
+            </div>
+
+            <div class="card rounded-0">
+              <div id="js-user-account">
+                <div class="card-header">
+                  <h4>Login</h4>
+                </div>
+                <div class='card-body'>
+                  <form>
+                    <div class="form-group">
+                      <label for="uId">Username <span id="userIdErr" class="text-danger"></span></label>
+                      <input class="form-control" id="uId" placeholder="User ID..." type="text">
+                    </div>
+                    <button class="btn btn-primary" onclick="loginAccount()">Submit</button>
+                    <button class="btn btn-primary" onclick="createAccountForm()">Create Account</button>
+                  </form>
+                </div>
+              </div>
+              <div id="js-user-portfolio">
+                <div class="card-header">
+                  <h3 class="text-white">Portfolio:</h3>
+                </div>
+                <div class="card-body">
+                  <form id="holdingForm" class="holdingsForm d-none">
+
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <label id="holdingsSymbol"></label>
+                        </div>
+                        <div class="col-sm-2">
+                          <label id="coinPrice"></label>
+                        </div>
+                        <div class="col-sm-4">
+                          <input id="holdingDecimals" class="form-control" id="tHoldings" placeholder="Holdings..." type="text" data-value="">
+                        </div>
+                        <div class="col-sm-2">
+                          <label id="holdingDollars"></label>
+                        </div>
+                        <div class="col-sm-2">
+                          <button class="btn btn-primary float-right" onclick="saveHoldingsOnClick()">Save</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+
+                  <div class="table-responsive" style="color:white;">
+                    <table class="table table-striped table-hover table-sm">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                          <th scope="col">Coin</th>
+                          <th scope="col">Price/Holdings</th>
+                          <th scope="col">Chg.24h</th>
+                        </tr>
+                      </thead>
+                      <tbody id="portfolio-data" style="color:white;">
+
                         <!-- Portfolio goes here -->
-                        
+
                       </tbody>
                     </table>
                   </div>
-                  </div>
-                </div>
-                </div>
-
                 </div>
               </div>
             </div>
+
+          </div>
+        </div>
+      </div>
       <!-------------------------------------------------- SEARCH PAGE --------------------------------------------------->
       <div class="carousel-item">
         <div class="container">

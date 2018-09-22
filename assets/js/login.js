@@ -2,10 +2,12 @@
 function userCheck() {
     if (!localStorage.getItem('cw-username')) {
         document.getElementById('js-user-portfolio').className = 'd-none'
+        document.getElementById('js-user-total').className = 'd-none'
         loginForm()
     }
     else {
         document.getElementById('js-user-portfolio').className = ''
+        document.getElementById('js-user-total').className = ''
         welcomeUser()
   }
 }
