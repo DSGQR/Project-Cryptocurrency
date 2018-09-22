@@ -72,7 +72,7 @@ function displayArticle(article) {
       <div class="newsArticle">
         <div class="articleTitle d-inline-flex">
           <div class=" bg-primary text-white ">
-             <img class="newsArtcileImg img-fluid" src=${article.urlToImage} alt="">
+             <img class="newsArtcileImg" src=${article.urlToImage} alt="">
           </div>
           <div class="bg-dark text-white pl-3">
              <h5 class="d-flex d-inline">${article.title}</h5>
