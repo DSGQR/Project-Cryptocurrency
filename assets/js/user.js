@@ -263,6 +263,14 @@ function getUserPortfolio(userId) {
     return usrPortfolio;
 }
 
+function compareCoins(a, b) {
+    if (a.coinName < b.coinName)
+        return -1;
+    if (a.coinName > b.coinName)
+        return 1;
+    return 0;
+}
+
 function prepareUserPortfolio(usrPortf) {
 
     document.getElementById('portfolio-data').innerHTML = '';
@@ -270,11 +278,15 @@ function prepareUserPortfolio(usrPortf) {
     userProtfolioTotal = 0;
 
     if (usrPortf.watchList !== undefined) {
-
+        
+        // Sort watch list by name
+        coinLst = usrPortf.watchList;
+        coinLst.sort(compareCoins);
+        
         // get and process each coin in protfolio
-        for (let i = 0; i < usrPortf.watchList.length; i++) {
+        for (let i = 0; i < coinLst.length; i++) {
             // get the coin
-            coin = usrPortf.watchList[i];
+            coin = coinLst[i];
             // conver to coin object
             let coinObj = new cryptoCoin(coin.coinName, coin.coinSymbol);
             coinObj.holdings = coin.hold;
@@ -333,7 +345,7 @@ function displayCoinInPortfolio(coinObj) {
         // display holdings total
         userProtfolioTotalStr = accounting.formatMoney(userProtfolioTotal);
         document.getElementById('pTotal').innerHTML = userProtfolioTotalStr;
-      
+
     }
 
     // Delete Button
