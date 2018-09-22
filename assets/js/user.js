@@ -448,6 +448,7 @@ function deleteCoinOnClick(coinSymbol) {
     let refreshScreen = deleteCoin(userId, coinSymbol);
     if (refreshScreen) {
         refreshUserPortflio();
+        document.getElementById('pTotal').innerHTML = '$0.00';
     }
 }
 
