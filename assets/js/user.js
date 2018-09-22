@@ -381,7 +381,7 @@ function convertDollarFomratToFloat(dollarFigure) {
 //     console.log(userPort);
 
 //     // retreive data from screen
-//     let userId = localStorage.getItem('cw-username-test');
+//     let userId = localStorage.getItem('cw-username');
 
 //     // it will only retreive teh child node that was added
 //     if (userPort != null && userPort.userId === userId) {
@@ -397,7 +397,7 @@ function refreshUserPortflio() {
     document.getElementById('portfolio-data').innerHTML = '';
 
     // get user from local storage 
-    let userId = localStorage.getItem('cw-username-test');
+    let userId = localStorage.getItem('cw-username');
 
     // process all records in database
     userPortfRef.on('value', data => {
@@ -420,7 +420,7 @@ function deleteCoinOnClick(coinSymbol) {
     // Control default behavior for "submit" button
     event.preventDefault();
     // retreive data from screen
-    let userId = localStorage.getItem('cw-username-test');
+    let userId = localStorage.getItem('cw-username');
 
     let refreshScreen = deleteCoin(userId, coinSymbol);
     if (refreshScreen) {
@@ -433,7 +433,7 @@ function updateCoinOnClick(coinName, coinSymbol, coinPriceUSD, coinHoldings) {
     // Control default behavior for "submit" button
     event.preventDefault();
 
-    if (localStorage.getItem('cw-username-test')) {
+    if (localStorage.getItem('cw-username')) {
 
         if (document.getElementById('holdingForm').getAttribute('class') === "holdingsForm d-none") {
 
@@ -479,9 +479,9 @@ function saveHoldingsOnClick() {
     event.preventDefault();
 
     // retreive data from screen
-    let userId = localStorage.getItem('cw-username-test');
+    let userId = localStorage.getItem('cw-username');
 
-    if (localStorage.getItem('cw-username-test')) {
+    if (localStorage.getItem('cw-username')) {
 
         // retrevie coin name and symbol
         let coinNameSymbol = document.getElementById('holdingDecimals').getAttribute('data-value')

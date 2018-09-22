@@ -233,11 +233,11 @@ function addCoinToPortfolio(coinName, coinSymbol) {
   event.preventDefault();
 
   // Get user from local storage 
-  let userId = localStorage.getItem('cw-username-test');
+  let userId = localStorage.getItem('cw-username');
   let coinHold = '';
   
   // add coin to portfolio, only if user is logged in
-  if (localStorage.getItem('cw-username-test')) {
+  if (localStorage.getItem('cw-username')) {
     // add new coin
     addCoinToList(userId,coinName, coinSymbol, coinHold);
   }
