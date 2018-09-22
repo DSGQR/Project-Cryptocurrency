@@ -124,7 +124,6 @@ function createAccountInputError(userNameInput, userIdInput) {
         document.getElementById('userIdErr').innerHTML = "User ID cannot be blank"
     }
     if (doesAccountExist(userIdInput)) {
-        console.log('user account must have existed')
         isErrorFound = true
         document.getElementById('userIdErr').innerHTML = 'User ID already in use.'
     }
