@@ -85,6 +85,9 @@ function loginAccount() {
         //display porfolio
         localStorage.setItem('cw-username', userIdInput)
         userCheck()
+        // mark 
+        triggeOnceAtLogin = true;
+        refreshPortfoilioAtLogin();
     }
 }
 
