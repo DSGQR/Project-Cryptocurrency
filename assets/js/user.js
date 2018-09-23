@@ -108,7 +108,7 @@ function DeleteUserAccount() {
 // Create a reference to user folders
 let userPortfRef = db.ref('cryptoPortfolio');
 var userProtfolioTotal = 0;
-var triggeOnceAtLogin = false;
+
 document.getElementById('pTotal').innerHTML = '$0.00';
 
 function addCoinToList(userId, coinName, coinSymbol, coinHold) {
@@ -412,31 +412,6 @@ if (localStorage.getItem('cw-username')) {
             }
         });
     })
-}
-
-function refreshPortfoilioAtLogin() {
-    // This is invoked after user loged in to refresh any porfolio, if available
-    if (localStorage.getItem('cw-username')) {
-        userPortfRef.orderByChild('userId').equalTo(localStorage.getItem('cw-username')).on('value', data => {
-            // clear portfolio screen
-            document.getElementById('portfolio-data').innerHTML = '';
-            if (triggeOnceAtLogin) {
-                //loop over all nodes
-                data.forEach(elementNode => {
-                    // get node key and data
-                    var recKey = elementNode.key;
-                    var userPort = elementNode.val();
-                    // it will only retreive the child node that was added
-                    if (userPort !== null && userPort.userId === localStorage.getItem('cw-username')) {
-                        // dislay records here
-                        prepareUserPortfolio(userPort);
-                    }
-                });
-                // reset after the login to avoid duplicates
-                triggeOnceAtLogin = false;
-            }
-        })
-    }
 }
 
 function deleteCoinOnClick(coinSymbol) {
