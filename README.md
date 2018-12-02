@@ -34,3 +34,7 @@ Adam Openbrier
 Amin Mansouri
 Armando Pensado
 Daniel Amini
+
+#### Additional Goal:
+- [ ] Use Google Charts to graph coin details 
+- [ ] Adjust UI for larger devices (tablet, desktop)
