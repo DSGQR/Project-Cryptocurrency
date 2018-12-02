@@ -1,10 +1,10 @@
 # Crypto Watcher
 
 ## Description
-Quick access to top cryptocurrency rates. Explore news and more comprehensive list of currencies. Log in to save favorite coins for convenient updates.
+Quick access to top cryptocurrency rates. Explore news and more comprehensive list of currencies. Save coins to watchlist and add your current holdings for convenient rate updates and a portfolio total.
 
 ## Design
-Top carousel showing top coins. Swipe to see user favorites or list of all available coins. Bottom carousel showing news. Swipe to reveal coin detail chart.
+Bootstrap carousel layout. Default display is user portfolio or login screen. Left carousel item lists cryptocurrency news articles. Right carousel item displays list top coins and coin search.
 
 ![App Wireframe](assets/images/wireframe.jpg)
 
@@ -28,23 +28,12 @@ Group Project at UCI Coding Bootcamp
 #### Technologies: 
 - [Bootstrap CSS library](https://getbootstrap.com/)
 - [Accounting JS library](https://openexchangerates.github.io/accounting.js/)
-- [Google Charts](https://google-developers.appspot.com/chart/interactive/docs/)
 
 #### Contributors:
 Adam Openbrier
 Amin Mansouri
 Armando Pensado
 Daniel Amini
-
-#### Tasks:
-- [x] Create Repository on Github
-- [ ] Create Firebase database
-- [ ] Carousel Layout on HTML
-- [ ] Input validation for user log-in information
-- [ ] AJAX request for coin rates
-- [ ] AJAX request for cryptocurrency news
-- [ ] Format currency with Accounting.js
-- [ ] Store user log-in and favorites in database
 
 #### Additional Goal:
 - [ ] Use Google Charts to graph coin details 
